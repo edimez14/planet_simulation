@@ -44,6 +44,16 @@ class Planet:
         x = (self.x * self.SCALE + WIDTH / 2 - view_position[0]) * zoom_level + view_position[0]
         y = (self.y * self.SCALE + HEIGHT / 2 - view_position[1]) * zoom_level + view_position[1]
 
+        if len(self.orbit) > 2:
+            update_points = []
+
+            for point in self.orbit:
+                x, y = point
+                x = (x * self.SCALE + WIDTH / 2 - view_position[0]) * zoom_level + view_position[0]
+                y = (y * self.SCALE + HEIGHT / 2 - view_position[1]) * zoom_level + view_position[1]
+                update_points.append((x, y))
+
+            pygame.draw.lines(win, self.color, False, update_points, 1)
         pygame.draw.circle(win, self.color, (int(x), int(y)), int(self.radius * zoom_level))
 
         if not self.sun:
