@@ -2,7 +2,7 @@ import pygame
 import math
 pygame.init()
 
-WIDTH, HEIGHT = 800, 800
+WIDTH, HEIGHT = 700, 700
 
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Planet Simulation")
@@ -12,6 +12,7 @@ YELLOW = (255, 255, 0)
 BLUE = (100, 149, 237)
 RED = (188, 39, 50)
 DARK_GREY = (80, 78, 81)
+BROWN = (131.48, 86.585, 59.766)
 
 FONT = pygame.font.SysFont("comicsans", 20)
 
@@ -20,7 +21,7 @@ class Planet:
 
     AU = 149.6e6 * 1000
     G = 6.67428e-11
-    SCALE = 250 / AU
+    SCALE = 100 / AU
     TIMESTEP = 3600 * 24
 
     def __init__(self, x, y, radius, color, mass):
@@ -41,24 +42,33 @@ class Planet:
         x = self.x * self.SCALE + WIDTH / 2
         y = self.y * self.SCALE + HEIGHT / 2
 
-        if len(self.orbit) > 2:
-            update_points = []
+        # if len(self.orbit) > 2:
+        #     update_points = []
 
-            for point in self.orbit:
-                x, y = point
-                x = x * self.SCALE + WIDTH / 2
-                y = y * self.SCALE + HEIGHT / 2
-                update_points.append((x, y))
+        #     for point in self.orbit:
+        #         x, y = point
+        #         x = x * self.SCALE + WIDTH / 2
+        #         y = y * self.SCALE + HEIGHT / 2
+        #         update_points.append((x, y))
 
-            pygame.draw.lines(win, self.color, False, update_points, 2)
+        #     pygame.draw.lines(win, self.color, False, update_points, 2)
 
         pygame.draw.circle(win, self.color, (x, y), self.radius)
 
         if not self.sun:
+            planet_names = ["Mercury", "Venus", "Earth", "Mars", "Jupiter"]
+            name_text = FONT.render(
+                f"{planet_names[self.planet_index]}", 1, WHITE)
+
             distance_text = FONT.render(
-                f"{round(self.distance_to_sun/1000, 1)}km", 1, WHITE)
+                f" {round(self.distance_to_sun/1000, 1)} km", 1, WHITE)
+            win.blit(name_text, (x - name_text.get_width() /
+                                 2, y - name_text.get_height() / 2 - 20))
             win.blit(distance_text, (x - distance_text.get_width() /
                                      2, y - distance_text.get_width() / 2))
+
+    def set_planet_index(self, index):
+        self.planet_index = index
 
     def attraction(self, other):
         other_x, other_y = other.x, other.y
@@ -101,22 +111,32 @@ def main():
     clock = pygame.time.Clock()
 
     # planets and start
-    sun = Planet(0, 0, 30, YELLOW, 1.98892 * 10**30)
+    sun = Planet(0, 0, 20, YELLOW, 1.98892 * 10**30)
     sun.sun = True
 
-    mercury = Planet(0.387 * Planet.AU, 0, 8, DARK_GREY, 3.30 * 10**23)
+    mercury = Planet(0.387 * Planet.AU, 0, 2, DARK_GREY, 3.30 * 10**23)
     mercury.y_vel = -47.4 * 1000
+    mercury.set_planet_index(0)
 
-    venus = Planet(0.723 * Planet.AU, 0, 14, WHITE, 4.8685 * 10**24)
+    venus = Planet(0.723 * Planet.AU, 0, 3.5, WHITE, 4.8685 * 10**24)
     venus.y_vel = -35.02 * 1000
+    venus.set_planet_index(1)
 
-    earth = Planet(-1 * Planet.AU, 0, 16, BLUE, 5.9742 * 10**24)
+    earth = Planet(-1 * Planet.AU, 0, 4, BLUE, 5.9742 * 10**24)
     earth.y_vel = 29.783 * 1000
+    earth.set_planet_index(2)
 
-    mars = Planet(-1.524 * Planet.AU, 0, 12, RED, 6.39 * 10**23)
+    mars = Planet(-1.524 * Planet.AU, 0, 3, RED, 6.39 * 10**23)
     mars.y_vel = 24.077 * 1000
+    mars.set_planet_index(3)
 
-    planets = [sun, mercury, venus, earth, mars]
+    jupiter = Planet(-5.203 * Planet.AU, 0, 7, BROWN, 1.898 * 10**27)
+    jupiter.y_vel = -13.06 * 1000
+    jupiter.set_planet_index(4)
+
+    # saturn, uranus, neptune
+
+    planets = [sun, mercury, venus, earth, mars, jupiter]
 
     while run:
         clock.tick(60)
