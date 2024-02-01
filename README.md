@@ -4,4 +4,4 @@ this branch contains the basic version of a planetary simulator, where you can f
 
 this is a tutorial taken from the youtube channel tech with tim
 
-![cap of the operation of the planetary simulator](assets/img/cap_of_the_planetary_simulator_operation_solar_system.jpg)
+![cap of the operation of the planetary simulator](assets/img/cap_of_the_operation_planetary_simulator_solar_system.jpg)
