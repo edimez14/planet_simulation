@@ -1,1 +1,1 @@
-# Planet Simulation main branch
+# Planet Simulation solar_system branch
