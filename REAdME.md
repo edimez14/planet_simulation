@@ -24,9 +24,14 @@ An interactive 2D simulation of our solar system demonstrating orbital mechanics
    ```bash
    git clone https://github.com/edimez14/planet_simulation
    ```
-2. Install dependencies:
+2. create and activate virtual environment:
    ```bash
-   pip install pygame
+   python3 -m venv .venv
+   source .venv/bin/activate
+   ```
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
    ```
 
 ## Usage
@@ -34,7 +39,7 @@ An interactive 2D simulation of our solar system demonstrating orbital mechanics
 Run the simulation:
 
 ```bash
-python planet_simulation.py
+python3 planet_simulation.py
 ```
 
 ### Controls
